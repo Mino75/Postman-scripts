@@ -3,7 +3,7 @@
 
 //What : use a variable in a request
 //Where : Request, authorization, body, header depending on the case
-"id:""{{objectId}}"",
+"id:"{{objectId}}",
 ..."	
 
 //What : Save data in a result to use it later
@@ -12,22 +12,22 @@ pm.environment.set("objectId", jsonData.id);
 
 //What : Check that the result of the call is an HTTP code (200, 500, 401)
 //Where : Test (main folder to avoid rewriting it on each request)
-"pm.test(""Status code is 200"", function () { pm.response.to.have.status(200);});"
+"pm.test("Status code is 200", function () { pm.response.to.have.status(200);});"
 
 //What : Check that the call result contains a field with a fixed expected value
 //Where : Test (request)
-"pm.test(""the id is 30"", function () {var jsonData = pm.response.json();pm.expect(jsonData.id).to.eql(30);});"
+"pm.test("the id is 30", function () {var jsonData = pm.response.json();pm.expect(jsonData.id).to.eql(30);});"
 
 //What : Check that the result contains a data
 //Where : Test (request)
- "pm.test(""the pet status is available"", function () {
+ "pm.test("the pet status is available", function () {
     var jsonData = pm.response.json();
-    var status = pm.environment.get(""petStatus"");
+    var status = pm.environment.get("petStatus");
     pm.expect(jsonData).to.include(status);});"
    
 //What : Check that the response time is correct
 //Where : Test (main folder to avoid rewriting it on each request)
-"pm.test(""Response time is less than 800ms"", function () {pm.expect(pm.response.responseTime).to.be.below(800);});"	
+"pm.test("Response time is less than 800ms", function () {pm.expect(pm.response.responseTime).to.be.below(800);});"	
 
 //What : Create unique value	
 //Where : Request, authorization, body, header depending on the case
@@ -39,7 +39,7 @@ pm.environment.set("objectId", jsonData.id);
 
 //What : Check that a field has a precise value known in advance	
 //Where : Test (request)
-"pm.expect(pm.response.json().errorLabel).to.eql(""Pet doesnt exist"")"	
+"pm.expect(pm.response.json().errorLabel).to.eql("Pet doesnt exist")"	
 
 //What : declare the response to use it later	
 //Where :Test (request)
@@ -60,8 +60,8 @@ if(contentLength > 0) {
 
 //What : Wait until after a specific date
 //Where : Pre request or Test
-"var moment = require(""moment"");
+"var moment = require("moment");
 let currentTime = moment.valueOf();
-let dateToReach = pm.environment.get(""TargetDate"");
+let dateToReach = pm.environment.get("TargetDate");
 let dateToReachValue = moment(dateToReach).valueOf();
 if(currentTime < dateToReachValue ) setTimeout(function(){}, dateToReachValue - currentTime + 1000);"
