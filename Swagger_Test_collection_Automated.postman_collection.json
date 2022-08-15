@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "0b59bc53-5197-44c0-ab13-081a68af541c",
+		"name": "Swagger_Test_collection_Automated",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8519649"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://petstore3.swagger.io/oauth/authorize",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"oauth",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Postman script template by Mino Rand\r",
+							"//Note : to use it copy paste to the test part and adapt the variable value\r",
+							"\r",
+							"pm.test(\"The id is 30\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(30);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The name is MinLion\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"MinLion\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"petId\", jsonData.id);\r",
+							"\r",
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"petId\", 30);\r",
+							"pm.environment.set(\"petName\", \"MinLion\");\r",
+							"pm.environment.set(\"petStatus\", \"available\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"name\": \"{{petName}}\",\r\n  \"category\": {\r\n    \"id\": 4,\r\n    \"name\": \"Lions\"\r\n  },\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"{{petStatus}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find modified pet by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The name is MinLion\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"MinLion\");\r",
+							"});\r",
+							"\r",
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet/{{petId}}",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update the selected pet info",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"petNewName\", \"MinLion2\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The name is MinLion2\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"MinLion2\");\r",
+							"});\r",
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 30,\r\n  \"name\": \"{{petNewName}}\",\r\n  \"category\": {\r\n    \"id\": 4,\r\n    \"name\": \"Lions\"\r\n  },\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find modified pet by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The name is MinLion\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"MinLion2\");\r",
+							"});\r",
+							"\r",
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet/{{petId}}",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete created pet by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 200\",function () { pm.response.to.have.status(200);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet/{{petId}}",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find modified pet by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches Pet not found\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Pet not found\");\r",
+							"});\r",
+							"\r",
+							"//What : Check that the result of the call is an HTTP code (200, 500, 401)\r",
+							"//Where : Test (main folder to avoid rewriting it on each request)\r",
+							"pm.test(\"Status code is 404\",function () { pm.response.to.have.status(404);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore3.swagger.io/api/v3/pet/{{petId}}",
+					"protocol": "https",
+					"host": [
+						"petstore3",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//Postman script template by Mino Rand",
+					"//Note : to use it copy paste to the test part and adapt the variable value",
+					"",
+					"",
+					"   ",
+					"//What : Check that the response time is correct",
+					"//Where : Test (main folder to avoid rewriting it on each request)",
+					"pm.test(\"Response time is less than 800ms\", function () {pm.expect(pm.response.responseTime).to.be.below(800);});\t",
+					""
+				]
+			}
+		}
+	]
+}
